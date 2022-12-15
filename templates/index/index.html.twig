@@ -3,8 +3,71 @@
 {% block body %}
     <div class="container">
         <div class="row">
-            <h1>Find historical date</h1>
+            <h1>Find historical quotes</h1>
             {{ form(form) }}
         </div>
+        {% if prices | length > 0 %}
+            <div class="row">
+                <h2>Search results:</h2>
+                <table class="table">
+                    <tr>
+                        <th>Date</th>
+                        <th>Open</th>
+                        <th>High</th>
+                        <th>Low</th>
+                        <th>Close</th>
+                        <th>Volume</th>
+                    </tr>
+                    {% for price in prices %}
+                        <tr>
+                            <td>{{ price.date | date('Y-m-d') | default('') }}</td>
+                            <td>{{ price.open | default('') }}</td>
+                            <td>{{ price.high | default('') }}</td>
+                            <td>{{ price.low | default('') }}</td>
+                            <td>{{ price.close | default('') }}</td>
+                            <td>{{ price.volume | default('') }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+            <div class="row">
+                <div style="width: 800px;"><canvas id="acquisitions"></canvas></div>
+            </div>
+        {% endif %}
     </div>
+
+    <script>
+        $(document).ready(function() {
+            $('.js-datepicker').datepicker({
+                format: 'yyyy-mm-dd'
+            });
+
+            const data = [];
+
+            {% for price in prices %}
+            data.unshift({
+                date: "{{ price.date | date('Y-m-d') }}",
+                open: {{ price.open }},
+                close: {{ price.close }}
+            });
+            {% endfor %}
+
+            const myChart = new Chart("acquisitions", {
+                type: 'line',
+                data: {
+                    labels: data.map(row => row.date),
+                    datasets: [
+                        {
+                            label: 'Open prices',
+                            data: data.map(row => row.open)
+                        },
+                        {
+                            label: 'Close prices',
+                            data: data.map(row => row.close)
+                        }
+                    ]
+                }
+            });
+        })
+    </script>
 {% endblock %}

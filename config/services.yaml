@@ -22,3 +22,17 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+    guzzle.client:
+        class: GuzzleHttp\Client
+        
+    App\Service\CompanySymbolValidationService\Client\CompanySymbolClient:
+        class: App\Service\CompanySymbolValidationService\Client\CompanySymbolClient
+        arguments:
+            $client: '@guzzle.client'
+            
+    App\Service\HistoricalQuotesService\Client\HistoricalQuotesClient:
+        class: App\Service\HistoricalQuotesService\Client\HistoricalQuotesClient
+        arguments:
+            $client: '@guzzle.client'
+            $apiKey: '%env(X_RAPID_API_KEY)%'
+            $apiHost: '%env(X_RAPID_API_HOST)%'

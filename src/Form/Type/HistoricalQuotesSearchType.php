@@ -3,6 +3,7 @@
 namespace App\Form\Type;
 
 use App\Entity\HistoricalQuoteSearchData;
+use App\Validator\ConstrainsCompanySymbol;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -10,7 +11,6 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\Date;
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\GreaterThanOrEqual;
 use Symfony\Component\Validator\Constraints\LessThanOrEqual;
@@ -62,6 +62,7 @@ class HistoricalQuotesSearchType extends AbstractType
                 'required' => true,
                 'constraints' => [
                     new NotBlank(),
+                    new ConstrainsCompanySymbol(),
                 ],
             ]
         );
@@ -79,13 +80,16 @@ class HistoricalQuotesSearchType extends AbstractType
             [
                 'widget' => 'single_text',
                 'required' => true,
-                'data' => new \DateTime(),
+                'data' => new \DateTime('midnight'),
+                'format' => 'yyyy-MM-dd',
+                'html5' => false,
+                'attr' => ['class' => 'js-datepicker'],
                 'constraints' => [
                     new NotBlank(),
                     new LessThanOrEqual([
                         'propertyPath' => 'parent.all[' . static::END_DATE_FIELD . '].data',
                     ]),
-                    new LessThanOrEqual(new \DateTime),
+                    new LessThanOrEqual(new \DateTime('midnight')),
                 ],
             ]
         );
@@ -104,12 +108,15 @@ class HistoricalQuotesSearchType extends AbstractType
                 'widget' => 'single_text',
                 'required' => true,
                 'data' => new \DateTime(),
+                'format' => 'yyyy-MM-dd',
+                'html5' => false,
+                'attr' => ['class' => 'js-datepicker'],
                 'constraints' => [
                     new NotBlank(),
                     new GreaterThanOrEqual([
                         'propertyPath' => 'parent.all[' . static::START_DATE_FIELD . '].data',
                     ]),
-                    new GreaterThanOrEqual(new \DateTime()),
+                    new LessThanOrEqual(new \DateTime()),
                 ],
             ]
         );
