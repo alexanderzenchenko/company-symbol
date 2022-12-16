@@ -29,6 +29,7 @@ services:
         class: App\Service\CompanySymbolService\Client\CompanySymbolClient
         arguments:
             $client: '@guzzle.client'
+            $endpoint: '%env(COMPANY_ENDPOINT)%'
             
     App\Service\HistoricalQuotesService\Client\HistoricalQuotesClient:
         class: App\Service\HistoricalQuotesService\Client\HistoricalQuotesClient
@@ -36,6 +37,12 @@ services:
             $client: '@guzzle.client'
             $apiKey: '%env(X_RAPID_API_KEY)%'
             $apiHost: '%env(X_RAPID_API_HOST)%'
+            $endpoint: '%env(HISTORICAL_QUOTES_ENDPOINT)%'
+            
+    App\Service\EmailService\EmailService:
+        class: App\Service\EmailService\EmailService
+        arguments:
+            $sender: '%env(MAIL_SENDER)%'
             
     company.symbol.reader:
         class: App\Service\CompanySymbolService\Reader\CompanyReader        

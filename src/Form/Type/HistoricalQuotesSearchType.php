@@ -86,10 +86,16 @@ class HistoricalQuotesSearchType extends AbstractType
                 'attr' => ['class' => 'js-datepicker'],
                 'constraints' => [
                     new NotBlank(),
-                    new LessThanOrEqual([
-                        'propertyPath' => 'parent.all[' . static::END_DATE_FIELD . '].data',
-                    ]),
-                    new LessThanOrEqual(new \DateTime('midnight')),
+                    new LessThanOrEqual(
+                        ['propertyPath' => 'parent.all[' . static::END_DATE_FIELD . '].data'],
+                        null,
+                        'The value should be less than or equal to the end date.'
+                    ),
+                    new LessThanOrEqual(
+                        new \DateTime('midnight'),
+                        null,
+                        'The value should be less than or equal to current date'
+                    ),
                 ],
             ]
         );
@@ -113,10 +119,16 @@ class HistoricalQuotesSearchType extends AbstractType
                 'attr' => ['class' => 'js-datepicker'],
                 'constraints' => [
                     new NotBlank(),
-                    new GreaterThanOrEqual([
-                        'propertyPath' => 'parent.all[' . static::START_DATE_FIELD . '].data',
-                    ]),
-                    new LessThanOrEqual(new \DateTime()),
+                    new GreaterThanOrEqual(
+                        ['propertyPath' => 'parent.all[' . static::START_DATE_FIELD . '].data'],
+                        null,
+                        'The value should be greater than or equal to start date.'
+                    ),
+                    new LessThanOrEqual(
+                        new \DateTime(),
+                        null,
+                        'The value should be less than or equal to now'
+                    ),
                 ],
             ]
         );

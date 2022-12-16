@@ -11,14 +11,16 @@ class EmailService implements EmailServiceInterface
 {
     protected MailerInterface $mailer;
     protected LoggerInterface $logger;
+    protected string $sender;
 
     /**
      * @param MailerInterface $mailer
      */
-    public function __construct(MailerInterface $mailer, LoggerInterface $logger)
+    public function __construct(MailerInterface $mailer, LoggerInterface $logger, string $sender)
     {
         $this->mailer = $mailer;
         $this->logger = $logger;
+        $this->sender = $sender;
     }
 
     /**
@@ -51,7 +53,7 @@ class EmailService implements EmailServiceInterface
     protected function prepareEmail(string $to, array $data): Email
     {
         return (new Email())
-            ->from('service@email.com')//TODO: get email from env variables
+            ->from($this->sender)
             ->to($to)
             ->subject($data['subject'])
             ->text($data['text']);

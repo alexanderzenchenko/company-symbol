@@ -10,26 +10,27 @@ use Symfony\Component\HttpFoundation\Response;
 class HistoricalQuotesClient implements HistoricalQuotesClientInterface
 {
     protected const REQUEST_METHOD = 'GET';
-    //TODO: move endpoint to env variable
-    protected const ENDPOINT = 'https://yh-finance.p.rapidapi.com/stock/v3/get-historical-data';
 
     protected Client $client;
     protected LoggerInterface $logger;
     protected string $apiKey;
     protected string $apiHost;
+    protected string $endpoint;
 
     /**
      * @param string $apiKey
      * @param string $apiHost
      * @param Client $client
      * @param LoggerInterface $logger
+     * @param string $endpoint
      */
-    public function __construct(string $apiKey, string $apiHost, Client $client, LoggerInterface $logger)
+    public function __construct(string $apiKey, string $apiHost, Client $client, LoggerInterface $logger, string $endpoint)
     {
         $this->client = $client;
         $this->logger = $logger;
         $this->apiKey = $apiKey;
         $this->apiHost = $apiHost;
+        $this->endpoint = $endpoint;
     }
 
     /**
@@ -39,7 +40,7 @@ class HistoricalQuotesClient implements HistoricalQuotesClientInterface
     public function getHistoricalQuotes(string $symbol): array
     {
         try {
-            $response = $this->client->request(static::REQUEST_METHOD, static::ENDPOINT, [
+            $response = $this->client->request(static::REQUEST_METHOD, $this->endpoint, [
                 'headers' => [
                     'X-RapidAPI-Key' => $this->apiKey,
                     'X-RapidAPI-Host' => $this->apiHost,

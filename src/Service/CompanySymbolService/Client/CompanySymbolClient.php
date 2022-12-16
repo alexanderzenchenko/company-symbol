@@ -10,20 +10,21 @@ use Symfony\Component\HttpFoundation\Response;
 class CompanySymbolClient implements CompanySymbolClientInterface
 {
     protected const REQUEST_METHOD = 'GET';
-    //TODO: move endpoint to env variable
-    protected const ENDPOINT = 'https://pkgstore.datahub.io/core/nasdaq-listings/nasdaq-listed_json/data/a5bc7580d6176d60ac0b2142ca8d7df6/nasdaq-listed_json.json';
 
     protected Client $client;
     protected LoggerInterface $logger;
+    protected string $endpoint;
 
     /**
      * @param Client $client
      * @param LoggerInterface $logger
+     * @param string $endpoint
      */
-    public function __construct(Client $client, LoggerInterface $logger)
+    public function __construct(Client $client, LoggerInterface $logger, string $endpoint)
     {
         $this->client = $client;
         $this->logger = $logger;
+        $this->endpoint = $endpoint;
     }
 
     /**
@@ -32,7 +33,7 @@ class CompanySymbolClient implements CompanySymbolClientInterface
     public function getCompanies(): array
     {
         try {
-            $response = $this->client->request(static::REQUEST_METHOD, static::ENDPOINT);
+            $response = $this->client->request(static::REQUEST_METHOD, $this->endpoint);
 
             if ($response->getStatusCode() !== Response::HTTP_OK) {
                 $this->logger->info(

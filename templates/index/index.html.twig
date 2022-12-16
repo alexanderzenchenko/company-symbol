@@ -13,26 +13,28 @@
         </div>
         {% if prices | length > 0 %}
             <div class="row">
-                <table class="table">
-                    <tr>
-                        <th>Date</th>
-                        <th>Open</th>
-                        <th>High</th>
-                        <th>Low</th>
-                        <th>Close</th>
-                        <th>Volume</th>
-                    </tr>
-                    {% for price in prices %}
+                <div class="col-md-12">
+                    <table class="table">
                         <tr>
-                            <td>{{ price.date | date('Y-m-d') | default('') }}</td>
-                            <td>{{ price.open | default('') }}</td>
-                            <td>{{ price.high | default('') }}</td>
-                            <td>{{ price.low | default('') }}</td>
-                            <td>{{ price.close | default('') }}</td>
-                            <td>{{ price.volume | default('') }}</td>
+                            <th>Date</th>
+                            <th>Open</th>
+                            <th>High</th>
+                            <th>Low</th>
+                            <th>Close</th>
+                            <th>Volume</th>
                         </tr>
-                    {% endfor %}
-                </table>
+                        {% for price in prices %}
+                            <tr>
+                                <td>{{ price.date | date('Y-m-d') | default('') }}</td>
+                                <td>{{ price.open | default('') }}</td>
+                                <td>{{ price.high | default('') }}</td>
+                                <td>{{ price.low | default('') }}</td>
+                                <td>{{ price.close | default('') }}</td>
+                                <td>{{ price.volume | default('') }}</td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
             </div>
         {% endif %}
     </div>
