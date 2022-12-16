@@ -2,14 +2,14 @@
 
 namespace App\Controller;
 
-use App\Service\CompanySymbolService\CompanySymbolServiceInterface;
+use App\Service\CompanySymbolService\Validator\CompanyValidatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
 class ValidationController extends AbstractController
 {
     #[Route('validation/validate/{symbol}', 'validation')]
-    public function validate(CompanySymbolServiceInterface $service, string $symbol = '')
+    public function validate(CompanyValidatorInterface $service, string $symbol = '')
     {
         $isValidSymbol = $service->validate(trim($symbol));
 

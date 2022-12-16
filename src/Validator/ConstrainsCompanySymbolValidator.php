@@ -2,19 +2,19 @@
 
 namespace App\Validator;
 
-use App\Service\CompanySymbolService\CompanySymbolServiceInterface;
+use App\Service\CompanySymbolService\Validator\CompanyValidatorInterface;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 
 class ConstrainsCompanySymbolValidator extends ConstraintValidator
 {
-    protected CompanySymbolServiceInterface $validator;
+    protected CompanyValidatorInterface $validator;
 
     /**
-     * @param CompanySymbolServiceInterface $validator
+     * @param CompanyValidatorInterface $validator
      */
-    public function __construct(CompanySymbolServiceInterface $validator)
+    public function __construct(CompanyValidatorInterface $validator)
     {
         $this->validator = $validator;
     }

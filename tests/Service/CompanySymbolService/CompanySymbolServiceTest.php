@@ -3,8 +3,8 @@
 namespace App\Tests\Service\CompanySymbolService;
 
 use App\Entity\Company;
-use App\Service\CompanySymbolService\CompanySymbolService;
 use App\Service\CompanySymbolService\Reader\CompanyReader;
+use App\Service\CompanySymbolService\Validator\CompanyValidator;
 use PHPUnit\Framework\TestCase;
 
 class CompanySymbolServiceTest extends TestCase
@@ -28,7 +28,7 @@ class CompanySymbolServiceTest extends TestCase
         $reader->method('getCompany')
             ->willReturn($company);
 
-        $validator = new CompanySymbolService($reader);
+        $validator = new CompanyValidator($reader);
 
         $this->assertEquals($result, $validator->validate($symbol));
     }
@@ -42,7 +42,7 @@ class CompanySymbolServiceTest extends TestCase
         $reader->method('getCompany')
             ->willReturn(null);
 
-        $validator = new CompanySymbolService($reader);
+        $validator = new CompanyValidator($reader);
 
         $this->assertEquals($result, $validator->validate($symbol));
     }

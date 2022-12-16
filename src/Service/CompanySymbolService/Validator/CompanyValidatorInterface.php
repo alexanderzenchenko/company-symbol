@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Service\CompanySymbolService;
+namespace App\Service\CompanySymbolService\Validator;
 
-interface CompanySymbolServiceInterface
+interface CompanyValidatorInterface
 {
     /**
      * @param string $symbol

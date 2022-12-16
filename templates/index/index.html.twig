@@ -3,12 +3,16 @@
 {% block body %}
     <div class="container">
         <div class="row">
-            <h1>Find historical quotes</h1>
-            {{ form(form) }}
+            <h1>Historical quotes</h1>
+            <div class="col-md-3">
+                {{ form(form) }}
+            </div>
+            <div class="col-md-9">
+                <div style="width: 800px;"><canvas id="acquisitions"></canvas></div>
+            </div>
         </div>
         {% if prices | length > 0 %}
             <div class="row">
-                <h2>Search results:</h2>
                 <table class="table">
                     <tr>
                         <th>Date</th>
@@ -29,9 +33,6 @@
                         </tr>
                     {% endfor %}
                 </table>
-            </div>
-            <div class="row">
-                <div style="width: 800px;"><canvas id="acquisitions"></canvas></div>
             </div>
         {% endif %}
     </div>
