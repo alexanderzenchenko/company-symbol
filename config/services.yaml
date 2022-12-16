@@ -25,8 +25,8 @@ services:
     guzzle.client:
         class: GuzzleHttp\Client
         
-    App\Service\CompanySymbolValidationService\Client\CompanySymbolClient:
-        class: App\Service\CompanySymbolValidationService\Client\CompanySymbolClient
+    App\Service\CompanySymbolService\Client\CompanySymbolClient:
+        class: App\Service\CompanySymbolService\Client\CompanySymbolClient
         arguments:
             $client: '@guzzle.client'
             

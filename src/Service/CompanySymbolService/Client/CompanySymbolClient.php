@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service\CompanySymbolValidationService\Client;
+namespace App\Service\CompanySymbolService\Client;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
