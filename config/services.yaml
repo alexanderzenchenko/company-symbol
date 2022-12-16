@@ -36,3 +36,20 @@ services:
             $client: '@guzzle.client'
             $apiKey: '%env(X_RAPID_API_KEY)%'
             $apiHost: '%env(X_RAPID_API_HOST)%'
+            
+    company.symbol.reader:
+        class: App\Service\CompanySymbolService\Reader\CompanyReader        
+            
+    company.symbol.reader.wrapper:
+        class: App\Service\CompanySymbolService\Reader\CompanyReaderWrapper
+        arguments:
+            $reader: '@company.symbol.reader'
+            
+    company.symbol.db.reader:
+        class: App\Service\CompanySymbolService\Reader\DbCompanyReader
+        arguments:
+            $reader: '@company.symbol.reader.wrapper'
+        
+    App\Service\CompanySymbolService\Reader\CompanyReaderInterface: '@company.symbol.db.reader'
+        
+    

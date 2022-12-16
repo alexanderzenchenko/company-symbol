@@ -2,19 +2,18 @@
 
 namespace App\Service\CompanySymbolService;
 
-use App\Service\CompanySymbolService\Client\CompanySymbolClientInterface;
+use App\Service\CompanySymbolService\Reader\CompanyReaderInterface;
 
 class CompanySymbolService implements CompanySymbolServiceInterface
 {
-    protected CompanySymbolClientInterface $client;
-    protected array $company = [];
+    protected CompanyReaderInterface $reader;
 
     /**
-     * @param CompanySymbolClientInterface $client
+     * @param CompanyReaderInterface $reader
      */
-    public function __construct(CompanySymbolClientInterface $client)
+    public function __construct(CompanyReaderInterface $reader)
     {
-        $this->client = $client;
+        $this->reader = $reader;
     }
 
     /**
@@ -23,39 +22,8 @@ class CompanySymbolService implements CompanySymbolServiceInterface
      */
     public function validate(string $symbol): bool
     {
-        $this->getCompany($symbol);
+        $company = $this->reader->getCompany($symbol);
 
-        return !empty($this->company[$symbol]);
-    }
-
-    /**
-     * @param string $symbol
-     * @return array
-     */
-    public function getCompany(string $symbol): array
-    {
-        if (array_key_exists($symbol, $this->company)) {
-            return $this->company[$symbol];
-        }
-
-        $this->company[$symbol] = $this->findCompanyBySymbol($symbol);
-
-        return $this->company[$symbol];
-    }
-
-    /**
-     * @param string $symbol
-     * @return array
-     */
-    protected function findCompanyBySymbol(string $symbol): array
-    {
-        $companies = $this->client->getCompanies();
-        foreach ($companies as $company) {
-            if (strtoupper(trim($company['Symbol'])) === strtoupper(trim($symbol))) {
-                return $company;
-            }
-        }
-
-        return [];
+        return $company !== null;
     }
 }

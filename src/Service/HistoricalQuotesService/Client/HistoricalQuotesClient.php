@@ -4,6 +4,7 @@ namespace App\Service\HistoricalQuotesService\Client;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Response;
 
 class HistoricalQuotesClient implements HistoricalQuotesClientInterface
@@ -13,15 +14,20 @@ class HistoricalQuotesClient implements HistoricalQuotesClientInterface
     protected const ENDPOINT = 'https://yh-finance.p.rapidapi.com/stock/v3/get-historical-data';
 
     protected Client $client;
+    protected LoggerInterface $logger;
     protected string $apiKey;
     protected string $apiHost;
 
     /**
+     * @param string $apiKey
+     * @param string $apiHost
      * @param Client $client
+     * @param LoggerInterface $logger
      */
-    public function __construct(Client $client, string $apiKey, string $apiHost)
+    public function __construct(string $apiKey, string $apiHost, Client $client, LoggerInterface $logger)
     {
         $this->client = $client;
+        $this->logger = $logger;
         $this->apiKey = $apiKey;
         $this->apiHost = $apiHost;
     }
@@ -44,7 +50,13 @@ class HistoricalQuotesClient implements HistoricalQuotesClientInterface
             ]);
 
             if ($response->getStatusCode() !== Response::HTTP_OK) {
-                //TODO: log response
+                $this->logger->info(
+                    sprintf(
+                        '[HistoricalQuotes] Unexpected response. Response code: %s. Response: %s',
+                        $response->getStatusCode(),
+                        htmlspecialchars(addslashes($response->getBody()->getContents()))
+                    )
+                );
                 return [];
             }
 
@@ -52,7 +64,14 @@ class HistoricalQuotesClient implements HistoricalQuotesClientInterface
 
             return $content['prices'];
         } catch (GuzzleException $exception) {
-            //TODO: log exception
+            $this->logger->warning(
+                sprintf(
+                    '[HistoricalQuotes] Request was unsuccessful. Exception: %s. Message: %s',
+                    $exception::class,
+                    $exception->getMessage()
+                )
+            );
+
             return [];
         }
     }

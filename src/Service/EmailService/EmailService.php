@@ -2,6 +2,7 @@
 
 namespace App\Service\EmailService;
 
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
@@ -9,13 +10,15 @@ use Symfony\Component\Mime\Email;
 class EmailService implements EmailServiceInterface
 {
     protected MailerInterface $mailer;
+    protected LoggerInterface $logger;
 
     /**
      * @param MailerInterface $mailer
      */
-    public function __construct(MailerInterface $mailer)
+    public function __construct(MailerInterface $mailer, LoggerInterface $logger)
     {
         $this->mailer = $mailer;
+        $this->logger = $logger;
     }
 
     /**
@@ -30,7 +33,13 @@ class EmailService implements EmailServiceInterface
         try {
             $this->mailer->send($mail);
         } catch (TransportExceptionInterface $exception) {
-            //TODO: log exception
+            $this->logger->info(
+                sprintf(
+                    '[Mailer] The mail has not been sent. Exception: %s. Message: %s',
+                    $exception::class,
+                    $exception->getMessage()
+                )
+            );
         }
     }
 

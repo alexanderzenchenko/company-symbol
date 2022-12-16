@@ -30,7 +30,7 @@ class HistoricalQuotesServiceTest extends TestCase
     {
         $searchData = new HistoricalQuoteSearchData();
         $searchData->setCompanySymbol('AAIT');
-        $searchData->setStartDate(new \DateTime('2022-12-09'));
+        $searchData->setStartDate(new \DateTime('2022-12-11'));
         $searchData->setEndDate(new \DateTime('2022-12-14'));
         $searchData->setEmail('test@email.com');
 
@@ -40,12 +40,25 @@ class HistoricalQuotesServiceTest extends TestCase
 
         $service = new HistoricalQuotesService($historicalQuotesClient);
 
-        $this->assertEquals($this->historicalData(), $service->getPricesBySearchConditions($searchData));
+        $expectedResult = $this->historicalData();
+        array_pop($expectedResult);
+        array_shift($expectedResult);
+
+        $this->assertEqualsCanonicalizing($expectedResult, $service->getPricesBySearchConditions($searchData));
     }
 
     protected function historicalData(): array
     {
         return json_decode('[
+        {
+            "date": 1671116019,
+            "open": 2.509999990463257,
+            "high": 2.509999990463257,
+            "low": 2.4100000858306885,
+            "close": 2.4100000858306885,
+            "volume": 8,
+            "adjclose": 2.4100000858306885
+        },
         {
             "date": 1671051604,
             "open": 2.509999990463257,

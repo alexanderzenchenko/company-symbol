@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Entity\HistoricalQuoteSearchData;
 use App\Form\Type\HistoricalQuotesSearchType;
-use App\Service\CompanySymbolService\CompanySymbolServiceInterface;
+use App\Service\CompanySymbolService\Reader\CompanyReaderInterface;
 use App\Service\EmailService\EmailService;
 use App\Service\HistoricalQuotesService\HistoricalQuotesServiceInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -20,7 +20,7 @@ class IndexController extends AbstractController
     public function index(
         Request                          $request,
         HistoricalQuotesServiceInterface $historicalQuotesService,
-        CompanySymbolServiceInterface    $validationService,
+        CompanyReaderInterface           $reader,
         EmailService                     $emailService
     ): Response
     {
@@ -35,10 +35,10 @@ class IndexController extends AbstractController
 
             $prices = $historicalQuotesService->getPricesBySearchConditions($searchData);
 
-            $company = $validationService->getCompany($searchData->getCompanySymbol());
+            $company = $reader->getCompany($searchData->getCompanySymbol());
 
             $emailService->send($searchData->getEmail(), [
-                'subject' => $company['Company Name'],
+                'subject' => $company->getCompanyName(),
                 'text' => sprintf(
                     'From %s to %s',
                     $searchData->getStartDate()->format(static::DATE_FORMAT),

@@ -2,7 +2,6 @@
 
 namespace App\Validator;
 
-use App\Service\CompanySymbolService\Client\CompanySymbolClientInterface;
 use App\Service\CompanySymbolService\CompanySymbolServiceInterface;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;

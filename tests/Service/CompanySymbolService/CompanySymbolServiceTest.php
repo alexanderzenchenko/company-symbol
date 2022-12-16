@@ -2,101 +2,62 @@
 
 namespace App\Tests\Service\CompanySymbolService;
 
-use App\Service\CompanySymbolService\Client\CompanySymbolClient;
+use App\Entity\Company;
 use App\Service\CompanySymbolService\CompanySymbolService;
+use App\Service\CompanySymbolService\Reader\CompanyReader;
 use PHPUnit\Framework\TestCase;
 
 class CompanySymbolServiceTest extends TestCase
 {
 
-    public function testCompanySymbolClientWasInvoked()
-    {
-        $client = $this->createMock(CompanySymbolClient::class);
-        $client->expects($this->once())
-            ->method('getCompanies');
-
-        $companySymbolService = new CompanySymbolService($client);
-        $company = $companySymbolService->getCompany('');
-    }
-
-    public function testGetCompany()
-    {
-        $client = $this->createStub(CompanySymbolClient::class);
-        $client->method('getCompanies')
-            ->willReturn($this->companiesDataProvider());
-
-        $companySymbolService = new CompanySymbolService($client);
-        $company = $companySymbolService->getCompany('');
-
-        $this->assertEquals([], $company);
-    }
-
     /**
-     * @dataProvider validateDataProvider
+     * @dataProvider validateTrueDataProvider
      */
     public function testValidate($symbol, $result)
     {
-        $client = $this->createStub(CompanySymbolClient::class);
-        $client->method('getCompanies')
-            ->willReturn($this->companiesDataProvider());
+        $company = (new Company())
+            ->setCompanyName('Aegion Corp')
+            ->setFinancialStatus('N')
+            ->setMarketCategory('Q')
+            ->setRoundLotSize(100.0)
+            ->setSecurityName('Aegion Corp - Class A Common Stock')
+            ->setSymbol('ABGB')
+            ->setTestIssue('N');
 
-        $companySymbolService = new CompanySymbolService($client);
+        $reader = $this->createStub(CompanyReader::class);
+        $reader->method('getCompany')
+            ->willReturn($company);
 
-        $this->assertEquals($result, $companySymbolService->validate($symbol));
+        $validator = new CompanySymbolService($reader);
 
+        $this->assertEquals($result, $validator->validate($symbol));
     }
 
-    protected function companiesDataProvider(): array
+    /**
+     * @dataProvider validateFalseDataProvider
+     */
+    public function testValidateWhenCompanyNotFound($symbol, $result)
     {
-        return json_decode(
-            '[
-                {
-                "Company Name": "iShares MSCI All Country Asia Information Technology Index Fund",
-                "Financial Status": "N",
-                "Market Category": "G",
-                "Round Lot Size": 100.0,
-                "Security Name": "iShares MSCI All Country Asia Information Technology Index Fund",
-                "Symbol": "AAIT",
-                "Test Issue": "N"
-                },
-                {
-                "Company Name": "Anchor BanCorp Wisconsin Inc.",
-                "Financial Status": "N",
-                "Market Category": "Q",
-                "Round Lot Size": 100.0,
-                "Security Name": "Anchor BanCorp Wisconsin Inc. - Common Stock",
-                "Symbol": "ABCW",
-                "Test Issue": "N"
-                },
-                {
-                "Company Name": "Alcentra Capital Corp.",
-                "Financial Status": "N",
-                "Market Category": "Q",
-                "Round Lot Size": 100.0,
-                "Security Name": "Alcentra Capital Corp. - Common Stock",
-                "Symbol": "ABDC",
-                "Test Issue": "N"
-                },
-                {
-                "Company Name": "Abengoa, S.A.",
-                "Financial Status": "N",
-                "Market Category": "Q",
-                "Round Lot Size": 100.0,
-                "Security Name": "Abengoa, S.A. - American Depositary Shares",
-                "Symbol": "ABGB",
-                "Test Issue": "N"
-                }]',
-            true
-        );
+        $reader = $this->createStub(CompanyReader::class);
+        $reader->method('getCompany')
+            ->willReturn(null);
+
+        $validator = new CompanySymbolService($reader);
+
+        $this->assertEquals($result, $validator->validate($symbol));
     }
 
-    protected function validateDataProvider(): array
+    protected function validateTrueDataProvider(): array
     {
         return [
             ['ABGB', true],
             ['abgb', true],
-            ['ABDc', true],
-            ['AAIT', true],
+        ];
+    }
+
+    protected function validateFalseDataProvider(): array
+    {
+        return [
             ['', false],
             ['123', false],
             ['sdj', false],

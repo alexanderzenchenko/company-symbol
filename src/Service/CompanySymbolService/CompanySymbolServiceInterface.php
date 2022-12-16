@@ -9,10 +9,4 @@ interface CompanySymbolServiceInterface
      * @return bool
      */
     public function validate(string $symbol): bool;
-
-    /**
-     * @param string $symbol
-     * @return array
-     */
-    public function getCompany(string $symbol): array;
 }
