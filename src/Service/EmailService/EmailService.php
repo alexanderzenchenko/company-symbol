@@ -42,7 +42,7 @@ class EmailService implements EmailServiceInterface
     protected function prepareEmail(string $to, array $data): Email
     {
         return (new Email())
-            ->from('service@email.com')
+            ->from('service@email.com')//TODO: get email from env variables
             ->to($to)
             ->subject($data['subject'])
             ->text($data['text']);
