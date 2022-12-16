@@ -2,7 +2,7 @@
 
 namespace App\Validator;
 
-use App\Service\CompanySymbolService\Validator\CompanyValidatorInterface;
+use App\Service\CompanyService\Validator\CompanyValidatorInterface;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;

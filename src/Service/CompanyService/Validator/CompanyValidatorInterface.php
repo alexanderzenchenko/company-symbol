@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service\CompanySymbolService\Validator;
+namespace App\Service\CompanyService\Validator;
 
 interface CompanyValidatorInterface
 {

@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Service\CompanySymbolService\Validator;
+namespace App\Service\CompanyService\Validator;
 
-use App\Service\CompanySymbolService\Reader\CompanyReaderInterface;
+use App\Service\CompanyService\Reader\CompanyReaderInterface;
 
 class CompanyValidator implements CompanyValidatorInterface
 {

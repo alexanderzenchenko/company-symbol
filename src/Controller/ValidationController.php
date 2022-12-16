@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Service\CompanySymbolService\Validator\CompanyValidatorInterface;
+use App\Service\CompanyService\Validator\CompanyValidatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 

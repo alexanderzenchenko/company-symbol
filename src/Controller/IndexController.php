@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Entity\HistoricalQuoteSearchData;
 use App\Form\Type\HistoricalQuotesSearchType;
-use App\Service\CompanySymbolService\Reader\CompanyReaderInterface;
+use App\Service\CompanyService\Reader\CompanyReaderInterface;
 use App\Service\EmailService\EmailService;
 use App\Service\HistoricalQuotesService\HistoricalQuotesServiceInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

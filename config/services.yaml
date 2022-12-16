@@ -25,8 +25,8 @@ services:
     guzzle.client:
         class: GuzzleHttp\Client
         
-    App\Service\CompanySymbolService\Client\CompanySymbolClient:
-        class: App\Service\CompanySymbolService\Client\CompanySymbolClient
+    App\Service\CompanyService\Client\CompanyClient:
+        class: App\Service\CompanyService\Client\CompanyClient
         arguments:
             $client: '@guzzle.client'
             $endpoint: '%env(COMPANY_ENDPOINT)%'
@@ -44,19 +44,19 @@ services:
         arguments:
             $sender: '%env(MAIL_SENDER)%'
             
-    company.symbol.reader:
-        class: App\Service\CompanySymbolService\Reader\CompanyReader        
+    company.reader:
+        class: App\Service\CompanyService\Reader\CompanyReader        
             
-    company.symbol.reader.wrapper:
-        class: App\Service\CompanySymbolService\Reader\CompanyReaderWrapper
+    company.reader.wrapper:
+        class: App\Service\CompanyService\Reader\CompanyReaderWrapper
         arguments:
-            $reader: '@company.symbol.reader'
+            $reader: '@company.reader'
             
-    company.symbol.db.reader:
-        class: App\Service\CompanySymbolService\Reader\DbCompanyReader
+    company.db.reader:
+        class: App\Service\CompanyService\Reader\DbCompanyReader
         arguments:
-            $reader: '@company.symbol.reader.wrapper'
+            $reader: '@company.reader.wrapper'
         
-    App\Service\CompanySymbolService\Reader\CompanyReaderInterface: '@company.symbol.db.reader'
+    App\Service\CompanyService\Reader\CompanyReaderInterface: '@company.db.reader'
         
     

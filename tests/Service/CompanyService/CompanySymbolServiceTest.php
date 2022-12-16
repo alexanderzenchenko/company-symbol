@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Tests\Service\CompanySymbolService;
+namespace App\Tests\Service\CompanyService;
 
 use App\Entity\Company;
-use App\Service\CompanySymbolService\Reader\CompanyReader;
-use App\Service\CompanySymbolService\Validator\CompanyValidator;
+use App\Service\CompanyService\Reader\CompanyReader;
+use App\Service\CompanyService\Validator\CompanyValidator;
 use PHPUnit\Framework\TestCase;
 
-class CompanySymbolServiceTest extends TestCase
+class CompanyServiceTest extends TestCase
 {
 
     /**

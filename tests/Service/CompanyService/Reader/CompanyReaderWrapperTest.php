@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Tests\Service\CompanySymbolService\Reader;
+namespace App\Tests\Service\CompanyService\Reader;
 
 use App\Entity\Company;
-use App\Service\CompanySymbolService\Reader\CompanyReader;
-use App\Service\CompanySymbolService\Reader\CompanyReaderWrapper;
+use App\Service\CompanyService\Reader\CompanyReader;
+use App\Service\CompanyService\Reader\CompanyReaderWrapper;
 use Doctrine\Persistence\ObjectManager;
 use PHPUnit\Framework\TestCase;
 use Symfony\Bridge\Doctrine\ManagerRegistry;

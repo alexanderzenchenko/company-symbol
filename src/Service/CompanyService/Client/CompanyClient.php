@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Service\CompanySymbolService\Client;
+namespace App\Service\CompanyService\Client;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Response;
 
-class CompanySymbolClient implements CompanySymbolClientInterface
+class CompanyClient implements CompanyClientInterface
 {
     protected const REQUEST_METHOD = 'GET';
 

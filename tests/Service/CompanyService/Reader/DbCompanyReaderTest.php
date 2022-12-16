@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Tests\Service\CompanySymbolService\Reader;
+namespace App\Tests\Service\CompanyService\Reader;
 
 use App\Entity\Company;
 use App\Repository\CompanyRepository;
-use App\Service\CompanySymbolService\Reader\CompanyReader;
-use App\Service\CompanySymbolService\Reader\DbCompanyReader;
+use App\Service\CompanyService\Reader\CompanyReader;
+use App\Service\CompanyService\Reader\DbCompanyReader;
 use PHPUnit\Framework\TestCase;
 
 class DbCompanyReaderTest extends TestCase

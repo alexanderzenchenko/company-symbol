@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Service\CompanySymbolService\Client;
+namespace App\Service\CompanyService\Client;
 
-interface CompanySymbolClientInterface
+interface CompanyClientInterface
 {
     /**
      * @return array

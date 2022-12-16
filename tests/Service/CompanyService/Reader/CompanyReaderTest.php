@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Tests\Service\CompanySymbolService\Reader;
+namespace App\Tests\Service\CompanyService\Reader;
 
-use App\Service\CompanySymbolService\Client\CompanySymbolClient;
-use App\Service\CompanySymbolService\Reader\CompanyMapper;
-use App\Service\CompanySymbolService\Reader\CompanyReader;
+use App\Service\CompanyService\Client\CompanyClient;
+use App\Service\CompanyService\Reader\CompanyMapper;
+use App\Service\CompanyService\Reader\CompanyReader;
 use PHPUnit\Framework\TestCase;
 
 class CompanyReaderTest extends TestCase
@@ -12,19 +12,19 @@ class CompanyReaderTest extends TestCase
 
     public function testGetCompany()
     {
-        $client = $this->createStub(CompanySymbolClient::class);
+        $client = $this->createStub(CompanyClient::class);
         $client->method('getCompanies')
             ->willReturn($this->companiesDataProvider());
 
-        $companySymbolService = new CompanyReader($client, new CompanyMapper());
+        $companyReader = new CompanyReader($client, new CompanyMapper());
 
-        $company = $companySymbolService->getCompany('');
+        $company = $companyReader->getCompany('');
         $this->assertNull( $company);
 
-        $company = $companySymbolService->getCompany('123');
+        $company = $companyReader->getCompany('123');
         $this->assertNull($company);
 
-        $company = $companySymbolService->getCompany('AAIT');
+        $company = $companyReader->getCompany('AAIT');
         $this->assertIsObject($company);
     }
 

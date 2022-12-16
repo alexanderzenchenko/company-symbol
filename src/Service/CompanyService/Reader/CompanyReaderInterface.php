@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service\CompanySymbolService\Reader;
+namespace App\Service\CompanyService\Reader;
 
 use App\Entity\Company;
 

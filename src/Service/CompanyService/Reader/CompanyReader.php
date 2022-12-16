@@ -1,21 +1,21 @@
 <?php
 
-namespace App\Service\CompanySymbolService\Reader;
+namespace App\Service\CompanyService\Reader;
 
 use App\Entity\Company;
-use App\Service\CompanySymbolService\Client\CompanySymbolClientInterface;
+use App\Service\CompanyService\Client\CompanyClientInterface;
 
 class CompanyReader implements CompanyReaderInterface
 {
-    protected CompanySymbolClientInterface $client;
+    protected CompanyClientInterface $client;
     protected CompanyMapperInterface $mapper;
 
     /**
-     * @param CompanySymbolClientInterface $client
+     * @param CompanyClientInterface $client
      * @param CompanyMapperInterface $mapper
      */
     public function __construct(
-        CompanySymbolClientInterface $client,
+        CompanyClientInterface $client,
         CompanyMapperInterface $mapper
     )
     {
