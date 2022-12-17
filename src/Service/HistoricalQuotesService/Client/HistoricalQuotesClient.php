@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 class HistoricalQuotesClient implements HistoricalQuotesClientInterface
 {
     protected const REQUEST_METHOD = 'GET';
+    protected const PRICES_FIELD = 'prices';
 
     protected Client $client;
     protected LoggerInterface $logger;
@@ -67,7 +68,7 @@ class HistoricalQuotesClient implements HistoricalQuotesClientInterface
                 return [];
             }
 
-            return array_key_exists('prices', $content['prices']) ? $content['prices'] : [];
+            return array_key_exists(static::PRICES_FIELD, $content) ? $content[static::PRICES_FIELD] : [];
         } catch (GuzzleException $exception) {
             $this->logger->warning(
                 sprintf(
