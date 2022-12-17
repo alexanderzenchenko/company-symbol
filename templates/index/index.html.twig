@@ -14,7 +14,7 @@
         {% if prices | length > 0 %}
             <div class="row">
                 <div class="col-md-12">
-                    <table class="table">
+                    <table id="quotes-table" class="table">
                         <tr>
                             <th>Date</th>
                             <th>Open</th>
@@ -24,7 +24,7 @@
                             <th>Volume</th>
                         </tr>
                         {% for price in prices %}
-                            <tr>
+                            <tr class="price-data" data-date="{{ price.date | date('Y-m-d') }}" data-open="{{ price.open }}" data-close="{{ price.close }}">
                                 <td>{{ price.date | date('Y-m-d') | default('') }}</td>
                                 <td>{{ price.open | default('') }}</td>
                                 <td>{{ price.high | default('') }}</td>
@@ -38,20 +38,4 @@
             </div>
         {% endif %}
     </div>
-
-    <script>
-        $(document).ready(function() {
-            const data = [];
-
-            {% for price in prices %}
-            data.unshift({
-                date: "{{ price.date | date('Y-m-d') }}",
-                open: {{ price.open }},
-                close: {{ price.close }}
-            });
-            {% endfor %}
-
-            createChart(data);
-         })
-    </script>
 {% endblock %}
