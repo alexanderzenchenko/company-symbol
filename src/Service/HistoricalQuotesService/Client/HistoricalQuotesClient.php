@@ -63,7 +63,11 @@ class HistoricalQuotesClient implements HistoricalQuotesClientInterface
 
             $content = json_decode($response->getBody()->getContents(), true);
 
-            return $content['prices'];
+            if (!$content) {
+                return [];
+            }
+
+            return array_key_exists('prices', $content['prices']) ? $content['prices'] : [];
         } catch (GuzzleException $exception) {
             $this->logger->warning(
                 sprintf(

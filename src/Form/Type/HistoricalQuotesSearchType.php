@@ -127,7 +127,7 @@ class HistoricalQuotesSearchType extends AbstractType
                     new LessThanOrEqual(
                         new \DateTime(),
                         null,
-                        'The value should be less than or equal to now'
+                        'The value should be less than or equal to current date'
                     ),
                 ],
             ]
